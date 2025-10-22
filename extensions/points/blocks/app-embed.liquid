@@ -1,0 +1,551 @@
+<!-- Sticky Button -->
+<button class="ly-sticky-btn" id="lyBtn">{{ block.settings.button_text }}</button>
+
+<!-- Toast Notification -->
+<div id="toast" class="ly-toast"></div>
+
+<!-- Drawer Overlay -->
+<div class="ly-drawer-overlay" id="lyOverlay">
+  <div class="ly-drawer">
+    <!-- Home View -->
+    <div class="ly-view ly-view-home ly-active">
+      <div class="ly-drawer-header">
+        <h2 class="ly-title">{{ block.settings.main_title }}</h2>
+        <button class="ly-drawer-close" id="lyClose">×</button>
+      </div>
+      <p class="ly-subtext">{{ block.settings.main_description }}</p>
+
+      <button class="ly-cta ly-auth-trigger">{{ block.settings.signup_button_text }}</button>
+      <p class="ly-small-text">
+        {% assign signin_parts = block.settings.signin_link_text | split: '{link}' %}
+        {{ signin_parts[0] }}
+        {% if signin_parts[1] %}
+          {% assign link_parts = signin_parts[1] | split: '{/link}' %}
+          <a href="#" class="ly-link ly-auth-trigger">{{ link_parts[0] }}</a>{{ link_parts[1] }}
+        {% endif %}
+      </p>
+
+      <div class="ly-options">
+        <button class="ly-option" data-view="earn">
+          <span>💰 Ways to Earn</span>
+          <span>›</span>
+        </button>
+        <button class="ly-option" data-view="redeem">
+          <span>🎁 Ways to Redeem</span>
+          <span>›</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Ways To Earn -->
+    <div class="ly-view ly-view-earn">
+      <div class="ly-drawer-header">
+        <button class="ly-back" data-back>←</button>
+        <h2 class="ly-title">Ways To Earn</h2>
+      </div>
+
+      <div class="ly-list">
+        <div class="ly-list-item">
+          <span>🎂 Birthday Reward</span>
+          <small>Get 100 Points</small>
+        </div>
+        {% if block.settings.youtube_url != blank %}
+          <div
+            class="ly-list-item ly-social-action"
+            id="lyYoutube"
+            data-platform="youtube"
+            data-url="{{ block.settings.youtube_url }}"
+            data-points="{{ block.settings.youtube_points }}"
+          >
+            <span>📺 Subscribe on YouTube</span>
+            <small>Get {{ block.settings.youtube_points }} Points</small>
+          </div>
+        {% endif %}
+
+        {% if block.settings.linkedin_url != blank %}
+          <div
+            class="ly-list-item ly-social-action"
+            id="lyLinkedIn"
+            data-platform="linkedin"
+            data-url="{{ block.settings.linkedin_url }}"
+            data-points="{{ block.settings.linkedin_points }}"
+          >
+            <span>🔗 Follow on LinkedIn</span>
+            <small>Get {{ block.settings.linkedin_points }} Points</small>
+          </div>
+        {% endif %}
+
+        {% if block.settings.facebook_url != blank %}
+          <div
+            class="ly-list-item ly-social-action"
+            id="lyFacebook"
+            data-platform="facebook"
+            data-url="{{ block.settings.facebook_url }}"
+            data-points="{{ block.settings.facebook_points }}"
+          >
+            <span>📘 Follow on Facebook</span>
+            <small>Get {{ block.settings.facebook_points }} Points</small>
+          </div>
+        {% endif %}
+
+        {% if block.settings.instagram_url != blank %}
+          <div
+            class="ly-list-item ly-social-action"
+            id="lyInstagram"
+            data-platform="instagram"
+            data-url="{{ block.settings.instagram_url }}"
+            data-points="{{ block.settings.instagram_points }}"
+          >
+            <span>📸 Follow on Instagram</span>
+            <small>Get {{ block.settings.instagram_points }} Points</small>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Ways To Redeem -->
+    <div class="ly-view ly-view-redeem">
+      <div class="ly-drawer-header">
+        <button class="ly-back" data-back>←</button>
+        <h2 class="ly-title">Ways To Redeem</h2>
+      </div>
+
+      <div class="ly-redeem-box">
+        <h3>1 Reward Point = ₹1</h3>
+        <p>Minimum cart amount ₹500. Maximum ₹200 discount.</p>
+        <p class="ly-light">Start at 1 point</p>
+      </div>
+
+      <button class="ly-cta ly-auth-trigger">{{ block.settings.signup_button_text }}</button>
+      <p class="ly-small-text">
+        {% assign signin_parts = block.settings.signin_link_text | split: '{link}' %}
+        {{ signin_parts[0] }}
+        {% if signin_parts[1] %}
+          {% assign link_parts = signin_parts[1] | split: '{/link}' %}
+          <a href="#" class="ly-link ly-auth-trigger">{{ link_parts[0] }}</a>{{ link_parts[1] }}
+        {% endif %}
+      </p>
+    </div>
+
+    <!-- Phone Entry Screen -->
+    <div class="ly-view ly-view-phone">
+      <div class="ly-drawer-header">
+        <button class="ly-back" data-back>←</button>
+        <h2 class="ly-title">Sign In</h2>
+      </div>
+
+      <p class="ly-subtext">Enter your phone number to access your rewards</p>
+
+      <form id="phone-form" class="ly-form" novalidate>
+        <div class="ly-field-group">
+          <label for="phone-number" class="ly-label">Phone Number</label>
+          <div class="ly-input-wrapper">
+            <span class="ly-prefix"><b>+91</b></span>
+            <input
+              type="tel"
+              id="phone-number"
+              class="ly-input"
+              placeholder="Enter your phone number"
+              maxlength="10"
+              required
+              aria-describedby="phone-error phone-hint"
+            >
+          </div>
+          <div id="phone-hint" class="ly-hint">We'll send you a verification code via SMS</div>
+          <div id="phone-error" class="ly-error" role="alert"></div>
+        </div>
+
+        <button type="submit" class="ly-btn ly-btn--primary ly-btn--full">Send OTP</button>
+      </form>
+    </div>
+
+    <!-- OTP Verification Screen -->
+    <div class="ly-view ly-view-otp">
+      <div class="ly-drawer-header">
+        <button class="ly-back" data-view="phone">←</button>
+        <h2 class="ly-title">Verify OTP</h2>
+      </div>
+
+      <p class="ly-subtext">
+        We've sent a 4-digit code to <strong><span id="phone-display"></span></strong>
+      </p>
+
+      <form id="otp-form" class="ly-form" novalidate>
+        <div class="ly-field-group">
+          <div class="ly-otp-container">
+            <input type="text" id="otp-1" class="ly-otp-input" maxlength="1" pattern="\d" aria-label="First digit">
+            <input type="text" id="otp-2" class="ly-otp-input" maxlength="1" pattern="\d" aria-label="Second digit">
+            <input type="text" id="otp-3" class="ly-otp-input" maxlength="1" pattern="\d" aria-label="Third digit">
+            <input type="text" id="otp-4" class="ly-otp-input" maxlength="1" pattern="\d" aria-label="Fourth digit">
+          </div>
+          <div id="otp-error" class="ly-error" role="alert"></div>
+        </div>
+
+        <button type="submit" class="ly-btn ly-btn--primary ly-btn--full">Verify OTP</button>
+
+        <button type="button" id="resend-btn" class="ly-btn ly-btn--secondary ly-btn--full">Resend OTP</button>
+
+        <div id="timer" class="ly-timer" aria-live="polite"></div>
+      </form>
+    </div>
+
+    <!-- Profile Completion Screen -->
+    <div class="ly-view ly-view-profile">
+      <div class="ly-drawer-header">
+        <button class="ly-back" data-view="otp">←</button>
+        <h2 class="ly-title">Complete Profile</h2>
+      </div>
+
+      <p class="ly-subtext">Enter your details to unlock rewards</p>
+
+      <form id="profile-form" class="ly-form" novalidate>
+        <div class="ly-field-group">
+          <label for="name" class="ly-label">Full Name</label>
+          <input
+            type="text"
+            id="name"
+            class="ly-input"
+            placeholder="Enter your full name"
+            required
+            aria-describedby="name-error"
+          >
+          <div id="name-error" class="ly-error" role="alert"></div>
+        </div>
+
+        <div class="ly-field-group">
+          <label for="email" class="ly-label">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            class="ly-input"
+            placeholder="Enter your email"
+            required
+            aria-describedby="email-error"
+          >
+          <div id="email-error" class="ly-error" role="alert"></div>
+        </div>
+
+        <button type="submit" class="ly-btn ly-btn--primary ly-btn--full">Save Profile</button>
+      </form>
+    </div>
+
+    <!-- Dashboard Screen -->
+    <div class="ly-view ly-view-dashboard">
+      <div class="ly-drawer-header">
+        <h2 class="ly-title">My Rewards</h2>
+        <button class="ly-drawer-close" id="lyDashClose">×</button>
+      </div>
+
+      <div class="ly-dashboard">
+        <!-- User Info Card -->
+        <div class="ly-user-card">
+          <div class="ly-user-card-header">
+            <div class="ly-user-info-wrapper">
+              <div class="ly-user-avatar">👤</div>
+              <div class="ly-user-details">
+                <h3 id="user-name" class="ly-user-name">Welcome!</h3>
+                <p id="user-phone" class="ly-user-phone"></p>
+              </div>
+            </div>
+            <button class="ly-logout-btn" id="logout-btn">Logout</button>
+          </div>
+          <div class="ly-rewards-display">
+            <div class="ly-rewards-label">Available Rewards</div>
+            <div id="user-rewards" class="ly-rewards-amount">₹0</div>
+          </div>
+        </div>
+
+        <!-- Create Discount Form -->
+        <div class="ly-discount-section">
+          <h3 class="ly-section-title">Create Discount Code</h3>
+          <form id="discount-form" class="ly-form" novalidate>
+            <div class="ly-field-group">
+              <label for="amount" class="ly-label">Enter Amount</label>
+              <div class="ly-input-wrapper">
+                <span class="ly-prefix"><b>₹</b></span>
+                <input
+                  type="number"
+                  id="amount"
+                  class="ly-input"
+                  placeholder="Enter amount"
+                  maxlength="10"
+                  required
+                  aria-describedby="amount-error amount-hint"
+                >
+              </div>
+              <div id="amount-hint" class="ly-hint">We'll create a discount code for you</div>
+              <div id="amount-error" class="ly-error" role="alert"></div>
+            </div>
+
+            <button type="submit" class="ly-btn ly-btn--primary ly-btn--full">Create Discount Code</button>
+          </form>
+        </div>
+
+        <!-- Discount Codes List -->
+        <div class="ly-codes-section">
+          <h3 class="ly-section-title">Your Discount Codes</h3>
+          <div class="ly-codes-container">
+            <div id="codes-table"></div>
+            <div id="empty-state" class="ly-empty" style="display: none">
+              <div class="ly-empty-icon">🎁</div>
+              <h4>No discount codes yet</h4>
+              <p>Create your first discount code above to get started!</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Logout Button -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  :root {
+    --ly-primary-color: {{ block.settings.primary_color }};
+    --ly-primary-hover: {{ block.settings.primary_hover_color }};
+    --ly-secondary-color: {{ block.settings.secondary_color }};
+    --ly-success-color: #16a34a;
+    --ly-warning-color: #d97706;
+    --ly-error-color: {{ block.settings.error_color }};
+    --ly-text-primary: {{ block.settings.text_primary }};
+    --ly-text-secondary: {{ block.settings.text_secondary }};
+    --ly-text-muted: {{ block.settings.text_muted }};
+    --ly-bg-primary: {{ block.settings.bg_primary }};
+    --ly-bg-secondary: {{ block.settings.bg_secondary }};
+    --ly-bg-muted: {{ block.settings.bg_muted }};
+    --ly-border-color: {{ block.settings.border_color }};
+    --ly-border-radius: {{ block.settings.border_radius }}px;
+    --ly-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --ly-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --ly-spacing-xs: 0.25rem;
+    --ly-spacing-sm: 0.5rem;
+    --ly-spacing-md: 1rem;
+    --ly-spacing-lg: 1.5rem;
+    --ly-spacing-xl: 2rem;
+    --ly-spacing-2xl: 3rem;
+  }
+</style>
+
+<link rel="stylesheet" href="{{ 'style.css' | asset_url }}">
+<script src="{{ 'script.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Loyalty Points",
+  "target": "body",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Sticky Button Text",
+      "default": "🎁 Rewards Points",
+      "info": "Text displayed on the sticky rewards button"
+    },
+    {
+      "type": "text",
+      "id": "main_title",
+      "label": "Main Title",
+      "default": "Join and Earn Rewards",
+      "info": "Main heading displayed when drawer opens"
+    },
+    {
+      "type": "textarea",
+      "id": "main_description",
+      "label": "Main Description",
+      "default": "Earn points with every purchase and redeem them for exclusive discounts!",
+      "info": "Description text under main heading"
+    },
+    {
+      "type": "text",
+      "id": "signup_button_text",
+      "label": "Sign Up Button Text",
+      "default": "Sign Up and Get Free Points",
+      "info": "Text for the sign up button"
+    },
+    {
+      "type": "text",
+      "id": "signin_link_text",
+      "label": "Sign In Link Text",
+      "default": "Already have an account? {link}Sign in{/link}",
+      "info": "Text for sign in link. Use {link} and {/link} around the clickable text"
+    },
+    {
+      "type": "header",
+      "content": "Social Media Links"
+    },
+    {
+      "type": "url",
+      "id": "youtube_url",
+      "label": "YouTube Channel URL",
+      "info": "Your YouTube channel URL (e.g., https://www.youtube.com/@yourhandle)"
+    },
+    {
+      "type": "range",
+      "id": "youtube_points",
+      "min": 0,
+      "max": 500,
+      "step": 10,
+      "unit": "pts",
+      "label": "YouTube Points",
+      "default": 100,
+      "info": "Points awarded for subscribing"
+    },
+    {
+      "type": "url",
+      "id": "linkedin_url",
+      "label": "LinkedIn Company URL",
+      "info": "Your LinkedIn company page URL (e.g., https://www.linkedin.com/company/name)"
+    },
+    {
+      "type": "range",
+      "id": "linkedin_points",
+      "min": 0,
+      "max": 500,
+      "step": 10,
+      "unit": "pts",
+      "label": "LinkedIn Points",
+      "default": 50,
+      "info": "Points awarded for following"
+    },
+    {
+      "type": "url",
+      "id": "facebook_url",
+      "label": "Facebook Page URL",
+      "info": "Your Facebook page URL (e.g., https://www.facebook.com/yourpage)"
+    },
+    {
+      "type": "range",
+      "id": "facebook_points",
+      "min": 0,
+      "max": 500,
+      "step": 10,
+      "unit": "pts",
+      "label": "Facebook Points",
+      "default": 200,
+      "info": "Points awarded for following"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Instagram Profile URL",
+      "info": "Your Instagram profile URL (e.g., https://www.instagram.com/yourhandle)"
+    },
+    {
+      "type": "range",
+      "id": "instagram_points",
+      "min": 0,
+      "max": 500,
+      "step": 10,
+      "unit": "pts",
+      "label": "Instagram Points",
+      "default": 200,
+      "info": "Points awarded for following"
+    },
+    {
+      "type": "header",
+      "content": "Brand Colors"
+    },
+    {
+      "type": "color",
+      "id": "primary_color",
+      "label": "Primary Color",
+      "default": "#846c30",
+      "info": "Main brand color used for buttons and highlights"
+    },
+    {
+      "type": "color",
+      "id": "primary_hover_color",
+      "label": "Primary Hover Color",
+      "default": "#745c21",
+      "info": "Color when hovering over primary elements"
+    },
+    {
+      "type": "color",
+      "id": "secondary_color",
+      "label": "Secondary Color",
+      "default": "#64748b",
+      "info": "Used for secondary actions and elements"
+    },
+    {
+      "type": "color",
+      "id": "error_color",
+      "label": "Error Color",
+      "default": "#dc2626",
+      "info": "Used for error messages"
+    },
+    {
+      "type": "header",
+      "content": "Text & Background Colors"
+    },
+    {
+      "type": "color",
+      "id": "text_primary",
+      "label": "Primary Text Color",
+      "default": "#0f172a",
+      "info": "Main text color"
+    },
+    {
+      "type": "color",
+      "id": "text_secondary",
+      "label": "Secondary Text Color",
+      "default": "#475569",
+      "info": "Secondary text color"
+    },
+    {
+      "type": "color",
+      "id": "text_muted",
+      "label": "Muted Text Color",
+      "default": "#94a3b8",
+      "info": "Muted or disabled text color"
+    },
+    {
+      "type": "color",
+      "id": "bg_primary",
+      "label": "Primary Background",
+      "default": "#ffffff",
+      "info": "Main background color"
+    },
+    {
+      "type": "color",
+      "id": "bg_secondary",
+      "label": "Secondary Background",
+      "default": "#f8fafc",
+      "info": "Secondary background color"
+    },
+    {
+      "type": "color",
+      "id": "bg_muted",
+      "label": "Muted Background",
+      "default": "#f1f5f9",
+      "info": "Muted or subtle background color"
+    },
+    {
+      "type": "header",
+      "content": "Borders & Spacing"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Color",
+      "default": "#e2e8f0",
+      "info": "Color for borders and dividers"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Border Radius",
+      "default": 0,
+      "info": "Roundness of corners (0 = square, 20 = very round)"
+    }
+  ]
+}
+{% endschema %}

@@ -1,10 +1,4 @@
 {
-  "ratings": {
-    "stars": {
-      "label": "Ratings"
-    },
-    "home": {
-      "recommendationText": "Recommended Product!"
-    }
-  }
+  "name": "Loyalty Points",
+  "description": "Display and manage loyalty points for customers."
 }

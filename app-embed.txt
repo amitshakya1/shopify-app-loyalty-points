@@ -1,0 +1,376 @@
+<!-- Sticky Button -->
+<button class="ly-sticky-btn" id="lyBtn">The Panna Shop</button>
+
+<!-- Drawer Overlay -->
+<div class="ly-drawer-overlay" id="lyOverlay">
+  <div class="ly-drawer">
+    <!-- Home View -->
+    <div class="ly-view ly-view-home ly-active">
+      <div class="ly-drawer-header">
+        <h2 class="ly-title">Join and Earn Rewards</h2>
+        <button class="ly-drawer-close" id="lyClose">×</button>
+      </div>
+      <p class="ly-subtext">
+        Earn points with every purchase and redeem them for exclusive discounts!
+      </p>
+
+      <button class="ly-cta">Sign Up and Get Free Points</button>
+      <p class="ly-small-text">
+        Already have an account? <a href="#" class="ly-link">Sign in</a>
+      </p>
+
+      <div class="ly-options">
+        <button class="ly-option" data-view="earn">
+          <span>💰 Ways to Earn</span>
+          <span>›</span>
+        </button>
+        <button class="ly-option" data-view="redeem">
+          <span>🎁 Ways to Redeem</span>
+          <span>›</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Ways To Earn -->
+    <div class="ly-view ly-view-earn">
+      <div class="ly-drawer-header">
+        <button class="ly-back" data-back>←</button>
+        <h2 class="ly-title">Ways To Earn</h2>
+      </div>
+
+      <div class="ly-list">
+        <div class="ly-list-item">
+          <span>🎂 Birthday Reward</span>
+          <small>Get 100 Points</small>
+        </div>
+        <div class="ly-list-item" id="lyYoutube">
+          <span>📺 Subscribe on YouTube</span>
+          <small>Get 100 Points</small>
+        </div>
+        <div class="ly-list-item">
+          <span>🔗 Follow on LinkedIn</span>
+          <small>Get 50 Points</small>
+        </div>
+        <div class="ly-list-item">
+          <span>📘 Follow on Facebook</span>
+          <small>Get 200 Points</small>
+        </div>
+        <div class="ly-list-item">
+          <span>📸 Follow on Instagram</span>
+          <small>Get 200 Points</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ways To Redeem -->
+    <div class="ly-view ly-view-redeem">
+      <div class="ly-drawer-header">
+        <button class="ly-back" data-back>←</button>
+        <h2 class="ly-title">Ways To Redeem</h2>
+      </div>
+
+      <div class="ly-redeem-box">
+        <h3>1 Reward Point = ₹1</h3>
+        <p>Minimum cart amount ₹500. Maximum ₹200 discount.</p>
+        <p class="ly-light">Start at 1 point</p>
+      </div>
+
+      <button class="ly-cta">Sign Up and Get Free Points</button>
+      <p class="ly-small-text">
+        Already have an account? <a href="#" class="ly-link">Sign in</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ================= CSS ================= -->
+<style>
+  /* CSS Variables for theming */
+:root {
+    --ly-primary-color: #846c30;
+    --ly-primary-hover: #745c21;
+    --ly-secondary-color: #64748b;
+    --ly-success-color: #16a34a;
+    --ly-warning-color: #d97706;
+    --ly-error-color: #dc2626;
+    --ly-text-primary: #0f172a;
+    --ly-text-secondary: #475569;
+    --ly-text-muted: #94a3b8;
+    --ly-bg-primary: #ffffff;
+    --ly-bg-secondary: #f8fafc;
+    --ly-bg-muted: #f1f5f9;
+    --ly-border-color: #e2e8f0;
+    --ly-border-radius: 0;
+    --ly-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --ly-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+        0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --ly-spacing-xs: 0.25rem;
+    --ly-spacing-sm: 0.5rem;
+    --ly-spacing-md: 1rem;
+    --ly-spacing-lg: 1.5rem;
+    --ly-spacing-xl: 2rem;
+    --ly-spacing-2xl: 3rem;
+}
+.ly-drawer-overlay,
+.ly-drawer,
+.ly-sticky-btn {
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+/* Sticky Button */
+.ly-sticky-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #0f62fe;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  padding: 12px 20px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  z-index: 9999;
+}
+.ly-sticky-btn:hover {
+  background: #0550d8;
+}
+
+/* Overlay */
+.ly-drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+  display: none;
+  z-index: 9998;
+}
+
+/* Drawer */
+.ly-drawer {
+  position: fixed;
+  top: 0;
+  right: -400px;
+  width: 400px;
+  height: 100%;
+  background: #fff;
+  box-shadow: -6px 0 24px rgba(0, 0, 0, 0.2);
+  padding: 28px 24px;
+  transition: right 0.3s ease;
+  overflow-y: auto;
+}
+.ly-drawer-overlay.ly-show {
+  display: block;
+}
+.ly-drawer-overlay.ly-show .ly-drawer {
+  right: 0;
+}
+
+/* Header */
+.ly-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.ly-drawer-close,
+.ly-back {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #111;
+  font-weight: 600;
+}
+
+/* Text */
+.ly-title {
+  font-size: 1.4rem;
+  color: #111;
+  margin: 0;
+}
+.ly-subtext {
+  color: #6b7280;
+  font-size: 0.95rem;
+  margin-bottom: 20px;
+}
+
+/* CTA */
+.ly-cta {
+  background: #ffebe2;
+  color: #111;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  width: 100%;
+  margin-bottom: 14px;
+}
+.ly-cta:hover {
+  background: #ffd9c7;
+}
+
+/* Small text */
+.ly-small-text {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-bottom: 28px;
+}
+.ly-link {
+  color: #0f62fe;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+/* Options */
+.ly-options {
+  border-top: 1px solid #eee;
+}
+.ly-option {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fafafa;
+  border: none;
+  margin-top: 10px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.ly-option:hover {
+  background: #f0f0f0;
+}
+
+/* List style for "Ways to Earn" */
+.ly-list-item {
+  display: flex;
+  flex-direction: column;
+  padding: 14px 0;
+  border-bottom: 1px solid #eee;
+}
+.ly-list-item span {
+  font-weight: 600;
+  color: #111;
+}
+.ly-list-item small {
+  color: #9ca3af;
+  margin-top: 3px;
+}
+
+/* Redeem box */
+.ly-redeem-box {
+  background: #fff5f0;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+.ly-redeem-box h3 {
+  margin: 0 0 8px;
+  font-weight: 600;
+  color: #111;
+}
+.ly-redeem-box p {
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin: 3px 0;
+}
+.ly-light {
+  color: #9ca3af;
+}
+
+/* View switching */
+.ly-view {
+  display: none;
+}
+.ly-view.ly-active {
+  display: block;
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+  .ly-drawer {
+    width: 100%;
+    right: -100%;
+    border-radius: 0;
+  }
+  .ly-drawer-overlay.ly-show .ly-drawer {
+    right: 0;
+  }
+}
+</style>
+
+<!-- ================= JS ================= -->
+<script>
+const btn = document.getElementById("lyBtn");
+const overlay = document.getElementById("lyOverlay");
+const closeBtn = document.getElementById("lyClose");
+const options = document.querySelectorAll(".ly-option");
+const views = document.querySelectorAll(".ly-view");
+const backBtns = document.querySelectorAll("[data-back]");
+
+// Open drawer
+btn.addEventListener("click", () => overlay.classList.add("ly-show"));
+// Close drawer
+closeBtn.addEventListener("click", () => overlay.classList.remove("ly-show"));
+overlay.addEventListener("click", (e) => {
+  if (e.target === overlay) overlay.classList.remove("ly-show");
+});
+
+// Switch to nested view
+options.forEach((opt) => {
+  opt.addEventListener("click", () => {
+    const target = opt.getAttribute("data-view");
+    views.forEach((v) => v.classList.remove("ly-active"));
+    document.querySelector(`.ly-view-${target}`).classList.add("ly-active");
+  });
+});
+
+// Back to main
+backBtns.forEach((b) =>
+  b.addEventListener("click", () => {
+    views.forEach((v) => v.classList.remove("ly-active"));
+    document.querySelector(".ly-view-home").classList.add("ly-active");
+  })
+);
+
+function openYoutubeSubscribe(channelUrl, callback) {
+    const win = window.open(
+      channelUrl,
+      "ytSubscribePopup",
+      "width=600,height=600"
+    );
+
+    // Poll every 1s to detect when window is closed
+    const pollTimer = setInterval(() => {
+      if (win.closed) {
+        clearInterval(pollTimer);
+        callback(); // <-- triggers your reward function
+      }
+    }, 1000);
+  }
+
+  // Usage
+  document.getElementById("lyYoutube").addEventListener("click", () => {
+    openYoutubeSubscribe("https://www.youtube.com/@pannaofficial.in_", () => {
+      // ✅ Callback logic (user closed popup)
+      alert("Thanks for subscribing! 🎉 You've earned 100 points.");
+      // You can trigger your reward API call here
+      // e.g. send to backend or update points locally
+    });
+  });
+</script>
+
+
+
+{% schema %}
+{
+  "name": "Loyalty Points",
+  "target": "body",
+}
+{% endschema %}
